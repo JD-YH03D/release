@@ -96,22 +96,15 @@ export default function App() {
     <div className="min-h-screen bg-slate-950 text-slate-200 overflow-x-hidden">
       {/* Video Background */}
       <div className="fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
-       <video
-  autoPlay
-  muted
-  loop
-  playsInline
-  controls
-  preload="auto"
-  className="absolute inset-0 w-full h-full object-cover"
-  onLoadedData={() => console.log("VIDEO LOADED")}
-  onError={(e) => console.log("VIDEO ERROR", e)}
->
-  <source
-    src="/image/sasuke/sasuke-Landscape/background-1.mp4"
-    type="video/mp4"
-  />
-</video>
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/public/image/sasuke/sasuke-Landscape/background-1.mp4" type="video/mp4" />
+        </video>
         {/* Dark overlay agar konten tetap terbaca */}
         <div className="absolute inset-0 bg-slate-950/70" />
         {/* Subtle grid on top of video */}
