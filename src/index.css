@@ -1,1 +1,253 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #020617; }
+::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: #020617;
+  color: #e2e8f0;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: rgba(59,130,246,0.25);
+  color: #fff;
+}
+
+/* ── 3D Perspective Container ── */
+.perspective-container {
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+}
+
+/* ── Tilt Card 3D ── */
+.tilt-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.03,0.98,0.52,0.99);
+}
+
+.tilt-3d:hover {
+  transform: rotateY(-2deg) rotateX(2deg) translateZ(10px);
+}
+
+.tilt-3d-reverse:hover {
+  transform: rotateY(2deg) rotateX(-2deg) translateZ(10px);
+}
+
+/* ── 3D Float elements inside cards ── */
+.float-3d {
+  transform: translateZ(40px);
+  transform-style: preserve-3d;
+}
+
+.float-3d-deep {
+  transform: translateZ(80px);
+  transform-style: preserve-3d;
+}
+
+/* ── Glass Morphism ── */
+.glass {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(148, 163, 184, 0.07);
+}
+
+.glass-strong {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* ── Animated Gradient Mesh ── */
+@keyframes meshFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33% { transform: translate(80px, -60px) scale(1.15) rotate(10deg); }
+  66% { transform: translate(-40px, 50px) scale(0.9) rotate(-5deg); }
+}
+@keyframes meshFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  33% { transform: translate(-100px, 70px) scale(1.1) rotate(-12deg); }
+  66% { transform: translate(60px, -40px) scale(0.95) rotate(8deg); }
+}
+@keyframes meshFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1.05); }
+  50% { transform: translate(50px, 80px) scale(0.9); }
+}
+
+.mesh-1 { animation: meshFloat1 25s ease-in-out infinite; }
+.mesh-2 { animation: meshFloat2 30s ease-in-out infinite; }
+.mesh-3 { animation: meshFloat3 20s ease-in-out infinite; }
+
+/* ── Floating Animation ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0) translateZ(0); }
+  50% { transform: translateY(-18px) translateZ(20px); }
+}
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-12px) rotate(3deg); }
+}
+@keyframes floatReverse {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(15px) rotate(-2deg); }
+}
+
+.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-float-slow { animation: floatSlow 8s ease-in-out infinite; }
+.animate-float-reverse { animation: floatReverse 7s ease-in-out infinite; }
+.animate-float-delay-1 { animation: float 6s ease-in-out 1s infinite; }
+.animate-float-delay-2 { animation: float 6s ease-in-out 2s infinite; }
+.animate-float-delay-3 { animation: float 6s ease-in-out 3s infinite; }
+
+/* ── Glow Pulse ── */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.4; filter: blur(40px); }
+  50% { opacity: 0.7; filter: blur(60px); }
+}
+.glow-pulse { animation: glowPulse 4s ease-in-out infinite; }
+
+/* ── Rotating Border ── */
+@keyframes rotateBorder {
+  from { --angle: 0deg; }
+  to { --angle: 360deg; }
+}
+
+/* ── 3D Cube Spinner ── */
+@keyframes spinCube {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  25% { transform: rotateX(90deg) rotateY(90deg); }
+  50% { transform: rotateX(180deg) rotateY(180deg); }
+  75% { transform: rotateX(270deg) rotateY(270deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+.cube-spin {
+  transform-style: preserve-3d;
+  animation: spinCube 20s linear infinite;
+}
+
+/* ── Orbit Animation ── */
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+@keyframes orbitReverse {
+  from { transform: rotate(360deg) translateX(90px) rotate(-360deg); }
+  to { transform: rotate(0deg) translateX(90px) rotate(0deg); }
+}
+
+.animate-orbit { animation: orbit 15s linear infinite; }
+.animate-orbit-reverse { animation: orbitReverse 20s linear infinite; }
+
+/* ── Shimmer ── */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.03) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite;
+}
+
+/* ── Line Scan ── */
+@keyframes lineScan {
+  0% { transform: translateY(-100%); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+.line-scan {
+  animation: lineScan 8s linear infinite;
+}
+
+/* ── Grid Dot Pattern ── */
+.dot-grid {
+  background-image: radial-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ── Noise ── */
+.noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Gradient Text ── */
+.gradient-text {
+  background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-blue {
+  background: linear-gradient(135deg, #60a5fa 0%, #818cf8 50%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-emerald {
+  background: linear-gradient(135deg, #34d399 0%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Parallax Layer ── */
+.parallax-slow { will-change: transform; }
+
+/* ── Card Hover Lift ── */
+.card-lift {
+  transition: transform 0.5s cubic-bezier(0.03,0.98,0.52,0.99), box-shadow 0.5s ease;
+}
+.card-lift:hover {
+  transform: translateY(-8px) translateZ(20px);
+  box-shadow: 0 25px 60px -12px rgba(0,0,0,0.5), 0 0 40px -8px rgba(59,130,246,0.15);
+}
+
+/* ── Typewriter ── */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+.cursor-blink::after {
+  content: '▌';
+  animation: blink 1s step-end infinite;
+  color: #3b82f6;
+  font-weight: 300;
+  margin-left: 2px;
+}
+
+/* ── Ripple ── */
+@keyframes ripple {
+  0% { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+.ripple-ring {
+  animation: ripple 2s ease-out infinite;
+}
+
+/* ── Particle Trail ── */
+@keyframes particleDrift {
+  0% { transform: translateY(0) translateX(0) scale(1); opacity: 0.6; }
+  100% { transform: translateY(-200px) translateX(50px) scale(0); opacity: 0; }
+}
