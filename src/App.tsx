@@ -311,7 +311,7 @@ export default function App() {
       {/* Video Background */}
       <div className="fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
         <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover opacity-30 md:opacity-40">
-          <source src="https://raw.githubusercontent.com/JD-YH03D/Releases-Published/main/public/image/Itachi/background-1.mp4" type="video/mp4" />
+          <source src="https://raw.githubusercontent.com/JD-YH03D/Releases-Published/main/public/image/sasuke/sasuke-Landscape/background-5.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/75 to-slate-950/90" />
         <IsometricGrid />
