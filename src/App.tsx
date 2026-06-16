@@ -846,7 +846,7 @@ export default function App() {
                               <td className="px-4 md:px-6 py-3 md:py-4">
                                 <div className="flex items-center space-x-2 md:space-x-3">
                                   <div className="w-7 h-7 md:w-8 md:h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center"><GitBranch size={11} className="text-emerald-400" /></div>
-                                  <span className="font-mono text-emerald-400 font-medium text-[11px] md:text-xs">v2.0.0-release.js</span>
+                                  <span className="font-mono text-emerald-400 font-medium text-[11px] md:text-xs">v2.1.2-release.js</span>
                                 </div>
                               </td>
                               <td className="px-4 md:px-6 py-3 md:py-4 text-slate-400 text-xs hidden md:table-cell">
