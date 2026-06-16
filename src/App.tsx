@@ -107,7 +107,7 @@ export default function App() {
             Ganti src di bawah dengan path lokal, contoh: "/background.mp4"
             Setelah itu taruh file video di folder public/
           */}
-          <source src="https://raw.githubusercontent.com/JD-YH03D/CDN/main/public/sasuke/sasuke-Landscape/background-1.mp4" type="video/mp4" />
+          <source src="https://github.com/JD-YH03D/Releases-Published/main/public/image/Itachi/background-2.mp4" type="video/mp4" />
         </video>
         {/* Dark overlay agar konten tetap terbaca */}
         <div className="absolute inset-0 bg-slate-950/70" />
