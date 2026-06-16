@@ -797,7 +797,7 @@ export default function App() {
                             <div className="min-w-0">
                               <h3 className="font-bold text-white text-sm sm:text-lg tracking-tight truncate">GeoGuessr — Exploration Suite</h3>
                               <div className="flex items-center space-x-2 sm:space-x-3 mt-0.5 sm:mt-1">
-                                <span className="text-[8px] sm:text-[9px] text-slate-500 font-mono uppercase tracking-wider bg-slate-800/50 px-1.5 sm:px-2 py-0.5 rounded">v2.0.0</span>
+                                <span className="text-[8px] sm:text-[9px] text-slate-500 font-mono uppercase tracking-wider bg-slate-800/50 px-1.5 sm:px-2 py-0.5 rounded">v2.1.2</span>
                                 <div className="flex items-center space-x-1">
                                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                                   <span className="text-[8px] sm:text-[9px] text-emerald-400 font-semibold">Active</span>
@@ -821,7 +821,7 @@ export default function App() {
                           <div className="flex items-center space-x-2.5 min-w-0 flex-1">
                             <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0"><GitBranch size={11} className="text-emerald-400" /></div>
                             <div className="min-w-0">
-                              <div className="font-mono text-emerald-400 font-medium text-[11px] truncate">v2.0.0-release.js</div>
+                              <div className="font-mono text-emerald-400 font-medium text-[11px] truncate">v2.1.2-release.js</div>
                               <div className="text-[9px] text-slate-500">Production Build</div>
                             </div>
                           </div>
