@@ -94,8 +94,26 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200 overflow-x-hidden">
-      {/* Background Grid */}
-      <div className="fixed inset-0 bg-[radial-gradient(rgba(59,130,246,0.07)_1px,transparent_1px)] bg-[20px_20px]" aria-hidden="true" />
+      {/* Video Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          {/* 
+            Ganti src di bawah dengan path lokal, contoh: "/background.mp4"
+            Setelah itu taruh file video di folder public/
+          */}
+          <source src="https://raw.githubusercontent.com/JD-YH03D/CDN/main/public/sasuke/sasuke-Landscape/background-1.mp4" type="video/mp4" />
+        </video>
+        {/* Dark overlay agar konten tetap terbaca */}
+        <div className="absolute inset-0 bg-slate-950/70" />
+        {/* Subtle grid on top of video */}
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(59,130,246,0.05)_1px,transparent_1px)] bg-[20px_20px] opacity-40" />
+      </div>
       
       {/* Modal */}
       <AnimatePresence>
@@ -314,7 +332,7 @@ export default function App() {
       </motion.header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 max-w-6xl relative">
+      <main className="container mx-auto px-6 max-w-6xl relative z-10">
         {/* Hero Section */}
         <section className="py-16 md:py-24 flex flex-col md:flex-row items-center gap-12 md:gap-16">
           <motion.div className="flex-1 text-center md:text-left" initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8, ease: "easeOut" }}>
@@ -628,12 +646,12 @@ export default function App() {
                 ].map((item, index) => (
                   <motion.div
                     key={item.title}
-                    className={`p-5 rounded-2xl border border-slate-800 hover:border-${item.color.replace("text-", "")}/20 transition-colors`}
+                    className="p-5 rounded-2xl border border-slate-800 hover:border-slate-700 transition-colors"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <div className={`w-9 h-9 rounded-lg ${item.bg} flex items-center justify-center border ${item.color.replace("text-", "border-")}/20 mb-4`}>
+                    <div className={`w-9 h-9 rounded-lg ${item.bg} flex items-center justify-center mb-4`}>
                       <item.icon size={18} className={item.color} />
                     </div>
                     <h4 className="text-white font-bold text-sm mb-2">{item.title}</h4>
@@ -690,7 +708,7 @@ export default function App() {
                 <div className="flex gap-4 mb-1">
                   <span className="text-slate-700 select-none w-4 text-right flex-shrink-0">2</span>
                   <p className="text-blue-400">
-                    git clone <span className="text-emerald-400">"&quot;https://github.com/JD-YH03D/Scripts&quot;"</span>
+                    git clone <span className="text-emerald-400">&quot;https://github.com/JD-YH03D/Scripts&quot;</span>
                   </p>
                 </div>
                 <div className="flex gap-4 mb-4">
@@ -722,7 +740,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <motion.footer className="py-14 border-t border-slate-900 bg-slate-950 mt-12" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
+      <motion.footer className="py-14 border-t border-slate-900 bg-slate-950/90 mt-12 relative z-10" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}>
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8">
             {/* Left */}
