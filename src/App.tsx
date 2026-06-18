@@ -229,6 +229,8 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalScript, setModalScript] = useState<"geoguessr" | "chess">("geoguessr");
   const [activeTab, setActiveTab] = useState<"production" | "legacy">("production");
+  const [lang, setLang] = useState<"en" | "id">("id");
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -278,35 +280,35 @@ export default function App() {
   };
 
   const geoguessrControls = [
-    { key: "Tab", label: "Settings Panel", desc: "Open or close the settings interface" },
-    { key: "V", label: "Info Panel", desc: "Toggle the location info display" },
-    { key: "M", label: "Manual Marker", desc: "Place a marker on the game map" },
-    { key: "X", label: "Refresh", desc: "Reset state for the next round" },
-    { key: "1", label: "Auto Place", desc: "Place marker at the exact predicted position", isPrimary: true },
-    { key: "2", label: "Safe Place", desc: "Place marker with a randomized offset", isPrimary: true },
-    { key: "S", label: "Zoom In", desc: "Increase the mini-map zoom level" },
-    { key: "A", label: "Zoom Out", desc: "Decrease the mini-map zoom level" },
-    { key: "C", label: "Copy Coords", desc: "Copy current coordinates to clipboard" },
-    { key: "G", label: "Google Maps", desc: "Open the current location in Google Maps" },
-    { key: "D", label: "Discord", desc: "Send location data to Discord webhook", isDiscord: true },
+    { key: "Tab", label: lang === "id" ? "Panel Pengaturan" : "Settings Panel", desc: lang === "id" ? "Buka atau tutup panel pengaturan" : "Open or close the settings interface" },
+    { key: "V", label: lang === "id" ? "Panel Info" : "Info Panel", desc: lang === "id" ? "Tampilkan atau sembunyikan informasi lokasi" : "Toggle the location info display" },
+    { key: "M", label: lang === "id" ? "Penanda Manual" : "Manual Marker", desc: lang === "id" ? "Pasang penanda di peta game" : "Place a marker on the game map" },
+    { key: "X", label: lang === "id" ? "Refresh" : "Refresh", desc: lang === "id" ? "Reset state untuk ronde berikutnya" : "Reset state for the next round" },
+    { key: "1", label: lang === "id" ? "Auto Place" : "Auto Place", desc: lang === "id" ? "Pasang marker tepat di posisi prediksi" : "Place marker at the exact predicted position", isPrimary: true },
+    { key: "2", label: lang === "id" ? "Safe Place" : "Safe Place", desc: lang === "id" ? "Pasang marker dengan offset acak" : "Place marker with a randomized offset", isPrimary: true },
+    { key: "S", label: lang === "id" ? "Perbesar Zoom" : "Zoom In", desc: lang === "id" ? "Menambah level zoom mini-map" : "Increase the mini-map zoom level" },
+    { key: "A", label: lang === "id" ? "Perkecil Zoom" : "Zoom Out", desc: lang === "id" ? "Mengurangi level zoom mini-map" : "Decrease the mini-map zoom level" },
+    { key: "C", label: lang === "id" ? "Salin Koordinat" : "Copy Coords", desc: lang === "id" ? "Salin koordinat saat ini ke clipboard" : "Copy current coordinates to clipboard" },
+    { key: "G", label: "Google Maps", desc: lang === "id" ? "Buka lokasi saat ini di Google Maps" : "Open the current location in Google Maps" },
+    { key: "D", label: "Discord", desc: lang === "id" ? "Kirim data lokasi ke webhook Discord" : "Send location data to Discord webhook", isDiscord: true },
   ];
 
   const chessControls = [
-    { key: "Alt + Q–P", label: "Depth 1–10", desc: "Set engine analysis depth from 1 (Q) to 10 (P)", isRange: true },
-    { key: "Alt + A–L", label: "Depth 11–19", desc: "Set engine analysis depth from 11 (A) to 19 (L)", isRange: true },
-    { key: "Alt + Z–M", label: "Depth 20–26", desc: "Set engine analysis depth from 20 (Z) to 26 (M)", isRange: true },
-    { key: "Esc", label: "Toggle Panel", desc: "Minimize or maximize the analysis panel", isAction: true },
+    { key: "Alt + Q–P", label: "Depth 1–10", desc: lang === "id" ? "Atur depth analisis engine dari 1 (Q) sampai 10 (P)" : "Set engine analysis depth from 1 (Q) to 10 (P)", isRange: true },
+    { key: "Alt + A–L", label: "Depth 11–19", desc: lang === "id" ? "Atur depth analisis engine dari 11 (A) sampai 19 (L)" : "Set engine analysis depth from 11 (A) to 19 (L)", isRange: true },
+    { key: "Alt + Z–M", label: "Depth 20–26", desc: lang === "id" ? "Atur depth analisis engine dari 20 (Z) sampai 26 (M)" : "Set engine analysis depth from 20 (Z) to 26 (M)", isRange: true },
+    { key: "Esc", label: lang === "id" ? "Toggle Panel" : "Toggle Panel", desc: lang === "id" ? "Minimize atau maximize panel analisis" : "Minimize or maximize the analysis panel", isAction: true },
   ];
 
   const modalData = {
     geoguessr: {
-      title: "GeoGuessr — Keyboard Controls",
+      title: lang === "id" ? "GeoGuessr — Kontrol Keyboard" : "GeoGuessr — Keyboard Controls",
       iconColor: "text-emerald-400",
       iconBg: "bg-emerald-500/10",
       controls: geoguessrControls,
     },
     chess: {
-      title: "Chess.com — Hotkeys",
+      title: lang === "id" ? "Chess.com — Hotkeys" : "Chess.com — Hotkeys",
       iconColor: "text-[#8fa866]",
       iconBg: "bg-[#769656]/10",
       controls: chessControls,
@@ -314,10 +316,58 @@ export default function App() {
   };
 
   const stats = [
-    { value: 15, suffix: "K+", label: "Active Users", icon: Globe },
+    { value: 15, suffix: "K+", label: lang === "id" ? "Pengguna Aktif" : "Active Users", icon: Globe },
     { value: 99, suffix: "%", label: "Uptime", icon: Shield },
-    { value: 20, suffix: "+", label: "Scripts Built", icon: Layers },
-    { value: 5, suffix: "+", label: "Years Active", icon: Star },
+    { value: 20, suffix: "+", label: lang === "id" ? "Script Dibuat" : "Scripts Built", icon: Layers },
+    { value: 5, suffix: "+", label: lang === "id" ? "Tahun Aktif" : "Years Active", icon: Star },
+  ];
+
+  const installSteps = [
+    {
+      id: "01",
+      icon: Download,
+      title: lang === "id" ? "Instal Tampermonkey" : "Install Tampermonkey",
+      desc: lang === "id" ? "Pasang extension browser sekali, lalu semua script bisa di-install dengan satu klik." : "Add the browser extension once, then every script can be installed with one click.",
+      cta: lang === "id" ? "Buka Tampermonkey" : "Open Tampermonkey",
+      href: "https://www.tampermonkey.net/",
+    },
+    {
+      id: "02",
+      icon: Code,
+      title: lang === "id" ? "Pilih Build Script" : "Choose a Script Build",
+      desc: lang === "id" ? "Pilih GeoGuessr atau Chess.com dari direktori aktif lalu klik Install." : "Pick GeoGuessr or Chess.com from the active directory and click Install.",
+      cta: lang === "id" ? "Buka Direktori" : "Go to Directory",
+      href: "#directory",
+    },
+    {
+      id: "03",
+      icon: Keyboard,
+      title: lang === "id" ? "Atur Hotkeys & Jalankan" : "Set Hotkeys & Run",
+      desc: lang === "id" ? "Buka tombol Guide di tiap script card untuk mengatur hotkeys dengan benar." : "Open the Guide button in each script card to configure hotkeys correctly.",
+      cta: lang === "id" ? "Buka Panduan" : "Read Guide",
+      href: "#documentation",
+    },
+  ];
+
+  const trustSignals = [
+    { icon: Shield, label: lang === "id" ? "Baseline Keamanan" : "Security Baseline", value: lang === "id" ? "Validasi Header" : "Header Validation", note: lang === "id" ? "Namespace dan metadata diperiksa sebelum rilis." : "Namespace and metadata are checked before release." },
+    { icon: Globe, label: lang === "id" ? "Dukungan Browser" : "Browser Support", value: "Chromium + Firefox", note: lang === "id" ? "Dibangun untuk browser desktop yang kompatibel dengan Tampermonkey." : "Built for Tampermonkey-compatible desktop browsers." },
+    { icon: Star, label: lang === "id" ? "Disiplin Rilis" : "Release Discipline", value: "Semantic Versioning", note: lang === "id" ? "Setiap perubahan dirilis dengan versi yang jelas." : "Every change ships with explicit version tags." },
+  ];
+
+  const faqItems = [
+    {
+      q: lang === "id" ? "Apakah script ini aman dipakai?" : "Are these scripts safe to use?",
+      a: lang === "id" ? "Ya, semua build production mengikuti format UserScript standar dengan metadata yang jelas dan rilis terverifikasi." : "Yes. Production builds follow a standard UserScript structure with clear metadata and verified releases.",
+    },
+    {
+      q: lang === "id" ? "Bagaimana cara update script ke versi terbaru?" : "How do I update scripts to the latest version?",
+      a: lang === "id" ? "Jika memakai Tampermonkey, update akan terdeteksi otomatis. Kamu juga bisa cek manual di halaman Releases atau GreasyFork." : "With Tampermonkey, updates are detected automatically. You can also check manually via Releases or GreasyFork.",
+    },
+    {
+      q: lang === "id" ? "Kalau ada bug atau hotkey bentrok harus ke mana?" : "Where do I report bugs or hotkey conflicts?",
+      a: lang === "id" ? "Gunakan tombol Issues di header atau bagian dokumentasi. Sertakan browser, versi script, dan langkah reproduksi agar cepat diproses." : "Use the Issues link in the header or documentation area. Include browser, script version, and reproduction steps for faster handling.",
+    },
   ];
 
   return (
@@ -373,7 +423,7 @@ export default function App() {
                   </div>
                   <h3 className="font-bold text-white text-xs sm:text-sm tracking-wide">{modalData[modalScript].title}</h3>
                 </div>
-                <button onClick={closeModal} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-700/50 text-slate-500 hover:text-white transition-all" aria-label="Close">
+                <button onClick={closeModal} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-700/50 text-slate-500 hover:text-white transition-all" aria-label={lang === "id" ? "Tutup" : "Close"}>
                   <X size={16} />
                 </button>
               </div>
@@ -410,9 +460,9 @@ export default function App() {
                   <table className="w-full text-left text-xs font-mono">
                     <thead className="bg-slate-800/40 text-slate-500 text-[10px] uppercase tracking-wider">
                       <tr>
-                        <th className="px-4 py-3 font-semibold border-b border-slate-700/30 w-28">Combination</th>
-                        <th className="px-4 py-3 font-semibold border-b border-slate-700/30 w-32">Function</th>
-                        <th className="px-4 py-3 font-semibold border-b border-slate-700/30">Description</th>
+                        <th className="px-4 py-3 font-semibold border-b border-slate-700/30 w-28">{lang === "id" ? "Kombinasi" : "Combination"}</th>
+                        <th className="px-4 py-3 font-semibold border-b border-slate-700/30 w-32">{lang === "id" ? "Fungsi" : "Function"}</th>
+                        <th className="px-4 py-3 font-semibold border-b border-slate-700/30">{lang === "id" ? "Deskripsi" : "Description"}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-700/20 text-slate-300">
@@ -435,7 +485,7 @@ export default function App() {
               {/* Modal Footer */}
               <div className="px-4 sm:px-6 py-2 sm:py-2.5 bg-slate-900/40 border-t border-slate-700/30 flex justify-end flex-shrink-0">
                 <button onClick={closeModal} className="px-5 py-2 bg-slate-700/50 hover:bg-slate-600/50 text-white rounded-lg text-xs font-bold transition-all border border-slate-600/30">
-                  Close
+                  {lang === "id" ? "Tutup" : "Close"}
                 </button>
               </div>
             </motion.div>
@@ -487,9 +537,11 @@ export default function App() {
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center space-x-1 text-xs font-semibold">
             {[
-              { href: "#directory", label: "Directory" },
+              { href: "#directory", label: lang === "id" ? "Direktori" : "Directory" },
+              { href: "#install", label: lang === "id" ? "Instalasi" : "Install" },
+              { href: "#trust", label: lang === "id" ? "Kepercayaan" : "Trust" },
               { href: "#documentation", label: "Docs" },
-              { href: "https://github.com/JD-YH03D/Releases-Published/issues", label: "Issues", isExternal: true, isDanger: true },
+              { href: "https://github.com/JD-YH03D/Releases-Published/issues", label: lang === "id" ? "Isu" : "Issues", isExternal: true, isDanger: true },
             ].map((item) => (
               <a
                 key={item.href}
@@ -511,6 +563,22 @@ export default function App() {
               <GitHubIcon size={14} />
               <span>GitHub</span>
             </a>
+            <div className="ml-2 flex items-center rounded-xl border border-white/[0.08] bg-white/[0.03] p-1">
+              <button
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors ${lang === "id" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+                onClick={() => setLang("id")}
+                aria-label="Switch language to Indonesian"
+              >
+                ID
+              </button>
+              <button
+                className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors ${lang === "en" ? "bg-blue-600 text-white" : "text-slate-400 hover:text-white"}`}
+                onClick={() => setLang("en")}
+                aria-label="Switch language to English"
+              >
+                EN
+              </button>
+            </div>
           </nav>
 
           {/* Mobile Hamburger */}
@@ -534,10 +602,26 @@ export default function App() {
               className="md:hidden border-t border-slate-700/20 bg-slate-950/95 backdrop-blur-2xl overflow-hidden"
             >
               <nav className="flex flex-col py-3 px-4 space-y-0.5">
+                <div className="mb-2 flex items-center justify-end gap-1">
+                  <button
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors ${lang === "id" ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}
+                    onClick={() => setLang("id")}
+                  >
+                    ID
+                  </button>
+                  <button
+                    className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-colors ${lang === "en" ? "bg-blue-600 text-white" : "bg-slate-800 text-slate-400"}`}
+                    onClick={() => setLang("en")}
+                  >
+                    EN
+                  </button>
+                </div>
                 {[
-                  { href: "#directory", label: "Directory", icon: FolderOpen, color: "text-blue-400" },
-                  { href: "#documentation", label: "Documentation", icon: Book, color: "text-purple-400" },
-                  { href: "https://github.com/JD-YH03D/Releases-Published/issues", label: "Issues", icon: GitHubIcon, color: "text-red-400" },
+                  { href: "#directory", label: lang === "id" ? "Direktori" : "Directory", icon: FolderOpen, color: "text-blue-400" },
+                  { href: "#install", label: lang === "id" ? "Instalasi" : "Install", icon: Download, color: "text-cyan-400" },
+                  { href: "#trust", label: lang === "id" ? "Kepercayaan" : "Trust", icon: Shield, color: "text-emerald-400" },
+                  { href: "#documentation", label: lang === "id" ? "Dokumentasi" : "Documentation", icon: Book, color: "text-purple-400" },
+                  { href: "https://github.com/JD-YH03D/Releases-Published/issues", label: lang === "id" ? "Isu" : "Issues", icon: GitHubIcon, color: "text-red-400" },
                   { href: "https://github.com/JD-YH03D/Releases-Published", label: "GitHub", icon: GitHubIcon, color: "text-slate-400" },
                 ].map((item) => (
                   <a
@@ -601,9 +685,9 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.9, delay: 0.4 }}
                 >
-                  <span className="gradient-text">Web Automation</span>
+                  <span className="text-white">JD-YH03D</span>
                   <br />
-                  <span className="gradient-text-blue">Script Engine</span>
+                  <span className="gradient-text-blue">Scripts Hub</span>
                 </motion.h1>
 
                 <motion.p
@@ -612,7 +696,9 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
                 >
-                  A centralized hub for <span className="text-white font-semibold">high-quality UserScripts</span>. Built for performance, stability, and seamless browser integration.
+                  {lang === "id"
+                    ? "Production-grade UserScripts untuk GeoGuessr dan Chess.com, dengan rilis stabil, dokumentasi jelas, dan hotkeys yang siap dipakai."
+                    : "Production-grade UserScripts for GeoGuessr and Chess.com, with stable releases, clear docs, and ready-to-use hotkeys."}
                 </motion.p>
 
                 {/* CTA */}
@@ -630,19 +716,19 @@ export default function App() {
                     whileTap={{ scale: 0.97 }}
                   >
                     <span className="relative z-10 flex items-center">
-                      Explore Scripts
+                      {lang === "id" ? "Jelajahi Script" : "Explore Scripts"}
                       <ChevronRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </motion.a>
                   <motion.a
-                    href="#documentation"
-                    onClick={(e) => { e.preventDefault(); scrollToSection("#documentation"); }}
+                    href="#install"
+                    onClick={(e) => { e.preventDefault(); scrollToSection("#install"); }}
                     className="bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.15] text-slate-300 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-sm transition-all cursor-pointer text-center"
                     whileHover={{ scale: 1.03 }}
                     whileTap={{ scale: 0.97 }}
                   >
-                    Documentation
+                    {lang === "id" ? "Cara Instalasi" : "How to Install"}
                   </motion.a>
                 </motion.div>
 
@@ -776,9 +862,9 @@ export default function App() {
               <div>
                 <span className="text-[10px] font-mono text-blue-400 uppercase tracking-[0.3em] block mb-1 sm:mb-1.5">Repository</span>
                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
-                  Active <span className="gradient-text-blue">Directory</span>
+                  {lang === "id" ? "Direktori" : "Active"} <span className="gradient-text-blue">{lang === "id" ? "Aktif" : "Directory"}</span>
                 </h2>
-                <p className="text-slate-500 text-xs sm:text-sm mt-0.5 sm:mt-1 leading-tight">Official script repository and production builds.</p>
+                <p className="text-slate-500 text-xs sm:text-sm mt-0.5 sm:mt-1 leading-tight">{lang === "id" ? "Repositori script resmi dan build production." : "Official script repository and production builds."}</p>
               </div>
 
               <motion.div className="flex glass rounded-xl p-1 w-fit" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
@@ -827,7 +913,7 @@ export default function App() {
                                 <span className="text-[8px] sm:text-[9px] text-slate-500 font-mono uppercase tracking-wider bg-slate-800/50 px-1.5 sm:px-2 py-0.5 rounded">v2.1.2</span>
                                 <div className="flex items-center space-x-1">
                                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                  <span className="text-[8px] sm:text-[9px] text-emerald-400 font-semibold">Active</span>
+                                  <span className="text-[8px] sm:text-[9px] text-emerald-400 font-semibold">{lang === "id" ? "Aktif" : "Active"}</span>
                                 </div>
                               </div>
                             </div>
@@ -835,9 +921,9 @@ export default function App() {
                           <div className="flex items-center space-x-2 sm:space-x-3">
                             <button onClick={() => openModal("geoguessr")} className="text-[11px] sm:text-xs font-bold text-emerald-400 hover:bg-emerald-400/10 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl transition-all border border-emerald-400/20 hover:border-emerald-400/40 flex items-center space-x-1.5 sm:space-x-2">
                               <Book size={13} />
-                              <span>Guide</span>
+                              <span>{lang === "id" ? "Panduan" : "Guide"}</span>
                             </button>
-                            <span className="text-[8px] sm:text-[9px] font-mono text-slate-600 bg-slate-950/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-slate-700/30 hidden xs:inline-block">4 ASSETS</span>
+                            <span className="text-[8px] sm:text-[9px] font-mono text-slate-600 bg-slate-950/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-slate-700/30 hidden xs:inline-block">4 {lang === "id" ? "ASET" : "ASSETS"}</span>
                           </div>
                         </div>
                       </div>
@@ -849,12 +935,12 @@ export default function App() {
                             <div className="w-7 h-7 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0"><GitBranch size={11} className="text-emerald-400" /></div>
                             <div className="min-w-0">
                               <div className="font-mono text-emerald-400 font-medium text-[11px] truncate">v2.1.2-release.js</div>
-                              <div className="text-[9px] text-slate-500">Production Build</div>
+                              <div className="text-[9px] text-slate-500">{lang === "id" ? "Build Produksi" : "Production Build"}</div>
                             </div>
                           </div>
                           <a href="https://greasyfork.org/id/scripts/578278-geoguessr-let-s-explore-the-world" target="_blank" rel="noopener noreferrer"
                             className="flex items-center space-x-1.5 text-[10px] font-black uppercase text-white bg-gradient-to-r from-emerald-600 to-emerald-700 px-3.5 py-2 rounded-lg tracking-wider flex-shrink-0 ml-3">
-                            <Download size={11} /><span>Install</span>
+                            <Download size={11} /><span>{lang === "id" ? "Pasang" : "Install"}</span>
                           </a>
                         </div>
                       </div>
@@ -882,7 +968,7 @@ export default function App() {
                               <td className="px-4 md:px-6 py-3 md:py-4 text-right">
                                 <a href="https://greasyfork.org/id/scripts/578278-geoguessr-let-s-explore-the-world" target="_blank" rel="noopener noreferrer"
                                   className="inline-flex items-center space-x-1.5 text-[10px] font-black uppercase text-white bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-500 hover:to-emerald-600 px-4 py-2 md:py-2.5 rounded-lg transition-all tracking-[0.1em] shadow-lg shadow-emerald-600/20">
-                                  <Download size={11} /><span>Install</span>
+                                  <Download size={11} /><span>{lang === "id" ? "Pasang" : "Install"}</span>
                                 </a>
                               </td>
                             </tr>
@@ -904,19 +990,19 @@ export default function App() {
                               </div>
                             </div>
                             <div className="min-w-0">
-                              <h3 className="font-bold text-white text-sm sm:text-lg tracking-tight truncate">Chess.com — Board Analysis</h3>
+                              <h3 className="font-bold text-white text-sm sm:text-lg tracking-tight truncate">Chess.com — {lang === "id" ? "Analisis Papan" : "Board Analysis"}</h3>
                               <div className="flex items-center space-x-2 sm:space-x-3 mt-0.5 sm:mt-1">
                                 <span className="text-[8px] sm:text-[9px] text-slate-500 font-mono uppercase tracking-wider bg-slate-800/50 px-1.5 sm:px-2 py-0.5 rounded">v1.2.0</span>
-                                <div className="flex items-center space-x-1"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /><span className="text-[8px] sm:text-[9px] text-emerald-400 font-semibold">Active</span></div>
+                                <div className="flex items-center space-x-1"><div className="w-1.5 h-1.5 rounded-full bg-emerald-500" /><span className="text-[8px] sm:text-[9px] text-emerald-400 font-semibold">{lang === "id" ? "Aktif" : "Active"}</span></div>
                               </div>
                             </div>
                           </div>
                           <div className="flex items-center space-x-2 sm:space-x-3">
                             <button onClick={() => openModal("chess")} className="text-[11px] sm:text-xs font-bold text-[#8fa866] hover:bg-[#769656]/10 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl transition-all border border-[#769656]/20 hover:border-[#769656]/40 flex items-center space-x-1.5 sm:space-x-2">
                               <Book size={13} />
-                              <span>Guide</span>
+                              <span>{lang === "id" ? "Panduan" : "Guide"}</span>
                             </button>
-                            <span className="text-[8px] sm:text-[9px] font-mono text-slate-600 bg-slate-950/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-slate-700/30 hidden xs:inline-block">1 ASSET</span>
+                            <span className="text-[8px] sm:text-[9px] font-mono text-slate-600 bg-slate-950/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-slate-700/30 hidden xs:inline-block">1 {lang === "id" ? "ASET" : "ASSET"}</span>
                           </div>
                         </div>
                       </div>
@@ -928,12 +1014,12 @@ export default function App() {
                             <div className="w-7 h-7 rounded-lg bg-[#769656]/10 flex items-center justify-center flex-shrink-0"><GitBranch size={11} className="text-[#8fa866]" /></div>
                             <div className="min-w-0">
                               <div className="font-mono text-[#8fa866] font-medium text-[11px] truncate">v1.2.0-release.js</div>
-                              <div className="text-[9px] text-slate-500">Board Analysis</div>
+                              <div className="text-[9px] text-slate-500">{lang === "id" ? "Analisis Papan" : "Board Analysis"}</div>
                             </div>
                           </div>
                           <a href="https://greasyfork.org/id/scripts/579299-chess-com-play-chess-online-free-games/code" target="_blank" rel="noopener noreferrer"
                             className="flex items-center space-x-1.5 text-[10px] font-black uppercase text-white bg-gradient-to-r from-[#769656] to-[#6b8a4e] px-3.5 py-2 rounded-lg tracking-wider flex-shrink-0 ml-3">
-                            <Download size={11} /><span>Install</span>
+                            <Download size={11} /><span>{lang === "id" ? "Pasang" : "Install"}</span>
                           </a>
                         </div>
                       </div>
@@ -960,7 +1046,7 @@ export default function App() {
                               <td className="px-4 md:px-6 py-3 md:py-4 text-right">
                                 <a href="https://greasyfork.org/id/scripts/579299-chess-com-play-chess-online-free-games/code" target="_blank" rel="noopener noreferrer"
                                   className="inline-flex items-center space-x-1.5 text-[10px] font-black uppercase text-white bg-gradient-to-r from-[#769656] to-[#6b8a4e] hover:from-[#8fa866] hover:to-[#769656] px-4 py-2 md:py-2.5 rounded-lg transition-all tracking-[0.1em] shadow-lg shadow-[#769656]/20">
-                                  <Download size={11} /><span>Install</span>
+                                  <Download size={11} /><span>{lang === "id" ? "Pasang" : "Install"}</span>
                                 </a>
                               </td>
                             </tr>
@@ -977,8 +1063,8 @@ export default function App() {
                         <div className="h-10 w-10 sm:h-12 sm:w-12 glass rounded-xl sm:rounded-2xl flex items-center justify-center mb-2 sm:mb-3 text-slate-600 group-hover:text-blue-400 transition-colors mx-auto">
                           <Sparkles size={20} className="sm:hidden" /><Sparkles size={24} className="hidden sm:block" />
                         </div>
-                        <p className="text-slate-400 text-sm font-bold tracking-wide leading-tight">More Projects Coming Soon</p>
-                        <p className="text-slate-600 text-[11px] sm:text-xs mt-0.5 sm:mt-1 max-w-xs mx-auto leading-tight">New scripts are under active development.</p>
+                        <p className="text-slate-400 text-sm font-bold tracking-wide leading-tight">{lang === "id" ? "Project Lain Segera Hadir" : "More Projects Coming Soon"}</p>
+                        <p className="text-slate-600 text-[11px] sm:text-xs mt-0.5 sm:mt-1 max-w-xs mx-auto leading-tight">{lang === "id" ? "Script baru sedang dikembangkan secara aktif." : "New scripts are under active development."}</p>
                       </div>
                     </motion.div>
                   </div>
@@ -989,8 +1075,8 @@ export default function App() {
                     <div className="h-12 w-12 sm:h-16 sm:w-16 glass rounded-xl sm:rounded-2xl flex items-center justify-center mb-3 sm:mb-4 text-slate-600">
                       <FolderOpen size={24} className="sm:hidden" /><FolderOpen size={28} className="hidden sm:block" />
                     </div>
-                    <p className="text-slate-400 text-base sm:text-lg font-bold leading-tight">Legacy Archive</p>
-                    <p className="text-slate-600 text-xs sm:text-sm mt-1 max-w-xs sm:max-w-sm px-4 leading-tight">Older script versions are not publicly available. Contact the developer for access.</p>
+                    <p className="text-slate-400 text-base sm:text-lg font-bold leading-tight">{lang === "id" ? "Arsip Versi Lama" : "Legacy Archive"}</p>
+                    <p className="text-slate-600 text-xs sm:text-sm mt-1 max-w-xs sm:max-w-sm px-4 leading-tight">{lang === "id" ? "Versi script lama tidak tersedia publik. Hubungi developer untuk akses." : "Older script versions are not publicly available. Contact the developer for access."}</p>
                   </motion.div>
                 )}
               </motion.div>
@@ -998,16 +1084,88 @@ export default function App() {
           </div>
         </section>
 
+        {/* ── INSTALL ── */}
+        <section id="install" className="py-8 sm:py-10 md:py-14 lg:py-16 relative">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+            <motion.div className="text-center mb-6 sm:mb-7 lg:mb-8" initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <span className="text-[10px] font-mono text-cyan-400 uppercase tracking-[0.3em] block mb-1.5">{lang === "id" ? "Onboarding" : "Onboarding"}</span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">{lang === "id" ? "Cara Instalasi" : "How To Install"}</h2>
+              <p className="text-slate-400 text-sm sm:text-base mt-2 max-w-2xl mx-auto">{lang === "id" ? "Tiga langkah cepat supaya script langsung aktif dengan konfigurasi yang benar." : "Three quick steps to activate scripts with the right setup."}</p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+              {installSteps.map((step, i) => (
+                <motion.article key={step.id} className="glass rounded-xl sm:rounded-2xl p-4 sm:p-5 card-lift"
+                  initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
+                      <step.icon size={16} className="text-blue-300" />
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-600">STEP {step.id}</span>
+                  </div>
+                  <h3 className="text-white font-bold text-sm sm:text-base">{step.title}</h3>
+                  <p className="text-slate-500 text-xs sm:text-sm mt-1.5 leading-relaxed">{step.desc}</p>
+                  <a
+                    href={step.href}
+                    onClick={(e) => {
+                      if (step.href.startsWith("#")) {
+                        e.preventDefault();
+                        scrollToSection(step.href);
+                      }
+                    }}
+                    target={step.href.startsWith("http") ? "_blank" : undefined}
+                    rel={step.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="mt-4 inline-flex items-center text-[11px] font-semibold text-blue-300 hover:text-white transition-colors"
+                  >
+                    {step.cta}
+                    <ChevronRight size={13} className="ml-1" />
+                  </a>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── TRUST ── */}
+        <section id="trust" className="py-8 sm:py-10 md:py-14 lg:py-16 relative">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+            <motion.div className="text-center mb-6 sm:mb-7" initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-[0.3em] block mb-1.5">{lang === "id" ? "Reliabilitas" : "Reliability"}</span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">{lang === "id" ? "Sinyal Kepercayaan" : "Trust Signals"}</h2>
+              <p className="text-slate-400 text-sm sm:text-base mt-2 max-w-2xl mx-auto">{lang === "id" ? "Transparansi teknis yang membantu user percaya sebelum install." : "Technical transparency that builds trust before install."}</p>
+            </motion.div>
+
+            <motion.div className="glass rounded-xl sm:rounded-2xl overflow-hidden" initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              {trustSignals.map((signal, i) => (
+                <div key={signal.label} className={`px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between gap-4 ${i !== trustSignals.length - 1 ? "border-b border-slate-700/20" : ""}`}>
+                  <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                      <signal.icon size={15} className="text-emerald-300" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-white text-sm font-semibold">{signal.label}</p>
+                      <p className="text-slate-500 text-[11px] sm:text-xs">{signal.note}</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] sm:text-xs font-mono text-emerald-300 uppercase tracking-wider flex-shrink-0">{signal.value}</span>
+                </div>
+              ))}
+            </motion.div>
+          </div>
+        </section>
+
         {/* ── DOCUMENTATION ── */}
         <section id="documentation" className="py-8 sm:py-10 md:py-14 lg:py-16 relative">
           <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
             <motion.div className="text-center mb-6 sm:mb-7 lg:mb-8" initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-              <span className="text-[10px] font-mono text-blue-400 uppercase tracking-[0.3em] block mb-1 sm:mb-1.5">Architecture</span>
+              <span className="text-[10px] font-mono text-blue-400 uppercase tracking-[0.3em] block mb-1 sm:mb-1.5">{lang === "id" ? "Arsitektur" : "Architecture"}</span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
-                Standardized <span className="gradient-text-blue">Architecture</span>
+                {lang === "id" ? "Arsitektur" : "Standardized"} <span className="gradient-text-blue">{lang === "id" ? "Terstandar" : "Architecture"}</span>
               </h2>
               <p className="text-slate-400 text-sm sm:text-base mt-1.5 sm:mt-2 max-w-xl mx-auto leading-relaxed px-2">
-                All scripts conform to the <span className="text-blue-400 font-semibold">Standardized Script Schema (S3)</span>. Built for security, performance, and reliability.
+                {lang === "id"
+                  ? <><span>Semua script mengikuti </span><span className="text-blue-400 font-semibold">Standardized Script Schema (S3)</span><span>. Dibangun untuk keamanan, performa, dan reliabilitas.</span></>
+                  : <><span>All scripts conform to the </span><span className="text-blue-400 font-semibold">Standardized Script Schema (S3)</span><span>. Built for security, performance, and reliability.</span></>}
               </p>
             </motion.div>
 
@@ -1081,19 +1239,19 @@ export default function App() {
                       </svg>
                     </div>
                     <div className="min-w-0">
-                      <span className="text-white font-bold text-sm block group-hover:text-red-300 transition-colors">Found a Bug?</span>
-                      <span className="text-slate-500 text-[11px] sm:text-xs">Open an Issue on GitHub →</span>
+                      <span className="text-white font-bold text-sm block group-hover:text-red-300 transition-colors">{lang === "id" ? "Menemukan Bug?" : "Found a Bug?"}</span>
+                      <span className="text-slate-500 text-[11px] sm:text-xs">{lang === "id" ? "Buka Issue di GitHub →" : "Open an Issue on GitHub →"}</span>
                     </div>
                   </div>
                 </a>
 
                 {/* Quick Links */}
                 <div className="glass rounded-xl sm:rounded-2xl p-3 sm:p-4 space-y-2 sm:space-y-3">
-                  <h4 className="text-white font-bold text-xs sm:text-sm mb-2 sm:mb-3">Quick Links</h4>
+                  <h4 className="text-white font-bold text-xs sm:text-sm mb-2 sm:mb-3">{lang === "id" ? "Tautan Cepat" : "Quick Links"}</h4>
                   {[
-                    { label: "Releases", desc: "Latest builds", href: "https://github.com/JD-YH03D/Releases-Published/releases", icon: Sparkles },
+                    { label: "Releases", desc: lang === "id" ? "Build terbaru" : "Latest builds", href: "https://github.com/JD-YH03D/Releases-Published/releases", icon: Sparkles },
                     { label: "Repository", desc: "Source code", href: "https://github.com/JD-YH03D/Releases-Published", icon: GitHubIcon },
-                    { label: "Greasyfork", desc: "Install hub", href: "https://greasyfork.org/id/scripts/578278-geoguessr-let-s-explore-the-world", icon: Globe },
+                    { label: "Greasyfork", desc: lang === "id" ? "Pusat instalasi" : "Install hub", href: "https://greasyfork.org/id/scripts/578278-geoguessr-let-s-explore-the-world", icon: Globe },
                   ].map((link) => (
                     <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer"
                       className="flex items-center space-x-2.5 sm:space-x-3 group/l p-1.5 sm:p-2 -mx-1.5 sm:-mx-2 rounded-xl hover:bg-slate-800/30 transition-colors">
@@ -1127,6 +1285,47 @@ export default function App() {
             </div>
           </div>
         </section>
+
+        {/* ── FAQ ── */}
+        <section id="faq" className="py-8 sm:py-10 md:py-14 lg:py-16 relative">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+            <motion.div className="text-center mb-6 sm:mb-7" initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+              <span className="text-[10px] font-mono text-blue-400 uppercase tracking-[0.3em] block mb-1.5">{lang === "id" ? "Bantuan" : "Support"}</span>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">FAQ</h2>
+              <p className="text-slate-400 text-sm sm:text-base mt-2">{lang === "id" ? "Jawaban cepat untuk pertanyaan paling sering dari user baru." : "Quick answers to common questions from new users."}</p>
+            </motion.div>
+
+            <div className="glass rounded-xl sm:rounded-2xl overflow-hidden">
+              {faqItems.map((item, index) => {
+                const isOpen = openFaqIndex === index;
+                return (
+                  <div key={item.q} className={index !== faqItems.length - 1 ? "border-b border-slate-700/20" : ""}>
+                    <button
+                      className="w-full px-4 sm:px-6 py-4 sm:py-5 text-left flex items-center justify-between gap-3 hover:bg-white/[0.02] transition-colors"
+                      onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                    >
+                      <span className="text-white text-sm sm:text-base font-semibold">{item.q}</span>
+                      <ChevronDown size={16} className={`text-slate-500 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25 }}
+                          className="overflow-hidden"
+                        >
+                          <p className="px-4 sm:px-6 pb-4 sm:pb-5 text-slate-400 text-sm leading-relaxed">{item.a}</p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* ═══ FOOTER ═══ */}
@@ -1145,8 +1344,10 @@ export default function App() {
             </div>
             <div className="flex flex-col items-center sm:items-end gap-3 sm:gap-4">
               <div className="flex items-center space-x-3 sm:space-x-4">
-                <a href="#directory" onClick={(e) => { e.preventDefault(); scrollToSection("#directory"); }} className="text-slate-500 hover:text-white transition-colors text-[11px] sm:text-xs font-bold uppercase tracking-wider">Scripts</a>
-                <a href="#documentation" onClick={(e) => { e.preventDefault(); scrollToSection("#documentation"); }} className="text-slate-500 hover:text-white transition-colors text-[11px] sm:text-xs font-bold uppercase tracking-wider">Docs</a>
+                <a href="#directory" onClick={(e) => { e.preventDefault(); scrollToSection("#directory"); }} className="text-slate-500 hover:text-white transition-colors text-[11px] sm:text-xs font-bold uppercase tracking-wider">{lang === "id" ? "Script" : "Scripts"}</a>
+                <a href="#install" onClick={(e) => { e.preventDefault(); scrollToSection("#install"); }} className="text-slate-500 hover:text-white transition-colors text-[11px] sm:text-xs font-bold uppercase tracking-wider">{lang === "id" ? "Instalasi" : "Install"}</a>
+                <a href="#faq" onClick={(e) => { e.preventDefault(); scrollToSection("#faq"); }} className="text-slate-500 hover:text-white transition-colors text-[11px] sm:text-xs font-bold uppercase tracking-wider">FAQ</a>
+                <a href="#documentation" onClick={(e) => { e.preventDefault(); scrollToSection("#documentation"); }} className="text-slate-500 hover:text-white transition-colors text-[11px] sm:text-xs font-bold uppercase tracking-wider">{lang === "id" ? "Dokumentasi" : "Docs"}</a>
                 <a href="https://github.com/JD-YH03D/Releases-Published" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
                   className="w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg sm:rounded-xl glass text-slate-400 hover:text-white hover:border-slate-600 transition-all">
                   <GitHubIcon size={15} />
