@@ -227,6 +227,7 @@ function StatCounter({ value, suffix }: { value: number; suffix: string }) {
    ═════════════════════════════════════ */
 export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalScript, setModalScript] = useState<"geoguessr" | "chess">("geoguessr");
   const [activeTab, setActiveTab] = useState<"production" | "legacy">("production");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
@@ -262,7 +263,7 @@ export default function App() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  const openModal = () => { setIsModalOpen(true); document.body.style.overflow = "hidden"; };
+  const openModal = (script: "geoguessr" | "chess") => { setModalScript(script); setIsModalOpen(true); document.body.style.overflow = "hidden"; };
   const closeModal = () => { setIsModalOpen(false); document.body.style.overflow = ""; };
   const handleModalClick = (e: React.MouseEvent) => { if (e.target === modalRef.current) closeModal(); };
 
@@ -276,7 +277,7 @@ export default function App() {
     }
   };
 
-  const keyboardControls = [
+  const geoguessrControls = [
     { key: "Tab", label: "Settings Panel", desc: "Open or close the settings interface" },
     { key: "V", label: "Info Panel", desc: "Toggle the location info display" },
     { key: "M", label: "Manual Marker", desc: "Place a marker on the game map" },
@@ -289,6 +290,28 @@ export default function App() {
     { key: "G", label: "Google Maps", desc: "Open the current location in Google Maps" },
     { key: "D", label: "Discord", desc: "Send location data to Discord webhook", isDiscord: true },
   ];
+
+  const chessControls = [
+    { key: "Alt + Q–P", label: "Depth 1–10", desc: "Set engine analysis depth from 1 (Q) to 10 (P)", isRange: true },
+    { key: "Alt + A–L", label: "Depth 11–19", desc: "Set engine analysis depth from 11 (A) to 19 (L)", isRange: true },
+    { key: "Alt + Z–M", label: "Depth 20–26", desc: "Set engine analysis depth from 20 (Z) to 26 (M)", isRange: true },
+    { key: "Esc", label: "Toggle Panel", desc: "Minimize or maximize the analysis panel", isAction: true },
+  ];
+
+  const modalData = {
+    geoguessr: {
+      title: "GeoGuessr — Keyboard Controls",
+      iconColor: "text-emerald-400",
+      iconBg: "bg-emerald-500/10",
+      controls: geoguessrControls,
+    },
+    chess: {
+      title: "Chess.com — Hotkeys",
+      iconColor: "text-[#8fa866]",
+      iconBg: "bg-[#769656]/10",
+      controls: chessControls,
+    },
+  };
 
   const stats = [
     { value: 15, suffix: "K+", label: "Active Users", icon: Globe },
@@ -345,10 +368,10 @@ export default function App() {
               {/* Modal Header */}
               <div className="bg-slate-900/90 px-4 sm:px-6 py-2.5 sm:py-3 border-b border-slate-700/30 flex justify-between items-center flex-shrink-0">
                 <div className="flex items-center space-x-2.5">
-                  <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                    <Keyboard className="text-emerald-400" size={13} />
+                  <div className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg ${modalData[modalScript].iconBg} flex items-center justify-center`}>
+                    <Keyboard className={modalData[modalScript].iconColor} size={13} />
                   </div>
-                  <h3 className="font-bold text-white text-xs sm:text-sm tracking-wide">Keyboard Controls</h3>
+                  <h3 className="font-bold text-white text-xs sm:text-sm tracking-wide">{modalData[modalScript].title}</h3>
                 </div>
                 <button onClick={closeModal} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-700/50 text-slate-500 hover:text-white transition-all" aria-label="Close">
                   <X size={16} />
@@ -359,19 +382,21 @@ export default function App() {
               <div className="flex-1 overflow-y-auto p-2.5 sm:p-4">
                 {/* Mobile: Card layout */}
                 <div className="sm:hidden space-y-2">
-                  {keyboardControls.map((c, i) => (
+                  {modalData[modalScript].controls.map((c: any, i: number) => (
                     <motion.div
                       key={c.key}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: i * 0.02 }}
+                      transition={{ delay: i * 0.03 }}
                       className="flex items-center space-x-3 p-3 rounded-xl bg-slate-800/30 border border-slate-700/20"
                     >
-                      <kbd className="inline-flex items-center justify-center min-w-[28px] h-7 px-1.5 text-[11px] font-bold text-emerald-400 bg-slate-800/80 border border-slate-600/50 rounded-md shadow-[0_2px_0_rgba(0,0,0,0.4)]">
+                      <kbd className={`inline-flex items-center justify-center min-w-[28px] h-7 px-2 text-[10px] font-bold bg-slate-800/80 border border-slate-600/50 rounded-md shadow-[0_2px_0_rgba(0,0,0,0.4)] whitespace-nowrap ${
+                        c.isRange ? "text-[#8fa866]" : c.isAction ? "text-orange-400" : c.isDiscord ? "text-[#5865F2]" : c.isPrimary ? "text-emerald-400" : modalData[modalScript].iconColor
+                      }`}>
                         {c.key}
                       </kbd>
                       <div className="flex-1 min-w-0">
-                        <div className={`text-xs font-semibold ${c.isDiscord ? "text-[#5865F2]" : c.isPrimary ? "text-emerald-400" : "text-white"}`}>
+                        <div className={`text-xs font-semibold ${c.isRange ? "text-[#8fa866]" : c.isAction ? "text-orange-400" : c.isDiscord ? "text-[#5865F2]" : c.isPrimary ? "text-emerald-400" : "text-white"}`}>
                           {c.label}
                         </div>
                         <div className="text-[10px] text-slate-500 truncate">{c.desc}</div>
@@ -385,18 +410,20 @@ export default function App() {
                   <table className="w-full text-left text-xs font-mono">
                     <thead className="bg-slate-800/40 text-slate-500 text-[10px] uppercase tracking-wider">
                       <tr>
-                        <th className="px-4 py-3 font-semibold border-b border-slate-700/30 w-16">Key</th>
+                        <th className="px-4 py-3 font-semibold border-b border-slate-700/30 w-28">Combination</th>
                         <th className="px-4 py-3 font-semibold border-b border-slate-700/30 w-32">Function</th>
                         <th className="px-4 py-3 font-semibold border-b border-slate-700/30">Description</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-700/20 text-slate-300">
-                      {keyboardControls.map((c, i) => (
-                        <motion.tr key={c.key} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.025 }} className="hover:bg-slate-700/20 transition-colors">
+                      {modalData[modalScript].controls.map((c: any, i: number) => (
+                        <motion.tr key={c.key} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.03 }} className="hover:bg-slate-700/20 transition-colors">
                           <td className="px-4 py-2.5">
-                            <kbd className="inline-flex items-center justify-center min-w-[26px] h-6 px-1.5 text-[10px] font-bold text-emerald-400 bg-slate-800/80 border border-slate-600/50 rounded-md shadow-[0_2px_0_rgba(0,0,0,0.4)]">{c.key}</kbd>
+                            <kbd className={`inline-flex items-center justify-center min-w-[26px] h-6 px-2 text-[10px] font-bold bg-slate-800/80 border border-slate-600/50 rounded-md shadow-[0_2px_0_rgba(0,0,0,0.4)] whitespace-nowrap ${
+                              c.isRange ? "text-[#8fa866]" : c.isAction ? "text-orange-400" : c.isDiscord ? "text-[#5865F2]" : c.isPrimary ? "text-emerald-400" : modalData[modalScript].iconColor
+                            }`}>{c.key}</kbd>
                           </td>
-                          <td className={`px-4 py-2.5 text-xs font-medium ${c.isDiscord ? "text-[#5865F2]" : c.isPrimary ? "text-emerald-400" : "text-white"}`}>{c.label}</td>
+                          <td className={`px-4 py-2.5 text-xs font-medium ${c.isRange ? "text-[#8fa866]" : c.isAction ? "text-orange-400" : c.isDiscord ? "text-[#5865F2]" : c.isPrimary ? "text-emerald-400" : "text-white"}`}>{c.label}</td>
                           <td className="px-4 py-2.5 text-slate-500 text-xs">{c.desc}</td>
                         </motion.tr>
                       ))}
@@ -676,7 +703,7 @@ export default function App() {
                       </div>
                       <div className="flex items-center space-x-3">
                         <span className="text-slate-700 w-4 text-right select-none">03</span>
-                        <span><span className="text-blue-300">engine</span><span className="text-slate-500">.</span><span className="text-yellow-300">configure</span><span className="text-slate-500">({"{"}</span></span>
+                        <span><span className="text-blue-300">engine</span><span className="text-slate-500">.</span><span className="text-yellow-300">configure</span><span className="text-slate-500">({"{"})</span></span>
                       </div>
                       <div className="flex items-center space-x-3">
                         <span className="text-slate-700 w-4 text-right select-none">04</span>
@@ -806,7 +833,7 @@ export default function App() {
                             </div>
                           </div>
                           <div className="flex items-center space-x-2 sm:space-x-3">
-                            <button onClick={openModal} className="text-[11px] sm:text-xs font-bold text-emerald-400 hover:bg-emerald-400/10 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl transition-all border border-emerald-400/20 hover:border-emerald-400/40 flex items-center space-x-1.5 sm:space-x-2">
+                            <button onClick={() => openModal("geoguessr")} className="text-[11px] sm:text-xs font-bold text-emerald-400 hover:bg-emerald-400/10 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl transition-all border border-emerald-400/20 hover:border-emerald-400/40 flex items-center space-x-1.5 sm:space-x-2">
                               <Book size={13} />
                               <span>Guide</span>
                             </button>
@@ -884,7 +911,13 @@ export default function App() {
                               </div>
                             </div>
                           </div>
-                          <span className="text-[8px] sm:text-[9px] font-mono text-slate-600 bg-slate-950/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-slate-700/30 w-fit">1 ASSET</span>
+                          <div className="flex items-center space-x-2 sm:space-x-3">
+                            <button onClick={() => openModal("chess")} className="text-[11px] sm:text-xs font-bold text-[#8fa866] hover:bg-[#769656]/10 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg sm:rounded-xl transition-all border border-[#769656]/20 hover:border-[#769656]/40 flex items-center space-x-1.5 sm:space-x-2">
+                              <Book size={13} />
+                              <span>Guide</span>
+                            </button>
+                            <span className="text-[8px] sm:text-[9px] font-mono text-slate-600 bg-slate-950/50 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg border border-slate-700/30 hidden xs:inline-block">1 ASSET</span>
+                          </div>
                         </div>
                       </div>
 
@@ -1011,7 +1044,7 @@ export default function App() {
                   </div>
                   <div className="flex items-center text-[8px] sm:text-[9px] font-mono text-slate-600 font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em]">
                     <Terminal size={10} className="mr-1.5 sm:mr-2" />
-                    <span className="hidden xs:inline">development_</span>shell
+                    <span>development_shell</span>
                   </div>
                 </div>
                 <div className="p-3 sm:p-4 md:p-6 text-[10px] sm:text-[11px] font-mono leading-[1.7] sm:leading-[1.8] overflow-x-auto">
@@ -1020,7 +1053,7 @@ export default function App() {
                     { n: "2", c: <span><span className="text-blue-400">git clone</span> <span className="text-emerald-400 break-all">&quot;https://github.com/JD-YH03D/Scripts&quot;</span></span> },
                     { n: "3", c: <span><span className="text-blue-400">cd</span> <span className="text-slate-300">Scripts/build</span></span>, mb: true },
                     { n: "4", c: <span className="text-slate-500"># Install & optimize</span> },
-                    { n: "5", c: <span><span className="text-blue-400">npm</span> <span className="text-slate-300">install</span> <span className="text-slate-500">&&</span> <span className="text-blue-400">npm</span> <span className="text-slate-300">run optimize</span></span>, mb: true },
+                    { n: "5", c: <span><span className="text-blue-400">npm</span> <span className="text-slate-300">install</span> <span className="text-slate-500">&amp;&amp;</span> <span className="text-blue-400">npm</span> <span className="text-slate-300">run optimize</span></span>, mb: true },
                     { n: "6", c: <span className="text-emerald-400 font-semibold">✓ Build success: <span className="text-slate-300 font-normal">2 pkgs optimized.</span></span> },
                     { n: "7", c: <span className="text-emerald-400 font-semibold">✓ Tests passed: <span className="text-slate-300 font-normal">48/48</span></span> },
                     { n: "8", c: <span className="text-blue-400">▸ <span className="text-slate-300">Ready</span> <span className="text-slate-600">—</span> <span className="text-yellow-400">production</span></span> },
