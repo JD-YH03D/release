@@ -497,10 +497,10 @@ export default function App() {
           >
             <video autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover">
               <source
-                src="https://raw.githubusercontent.com/JD-YH03D/CDN/main/public/sasuke/sasuke-Landscape/background-6.mp4"
-                type="video/mp4"
-              />
-            </video>
+    src="/Releases-Published/image/sasuke/sasuke-Landscape/background-6.mp4"
+    type="video/mp4"
+  />
+</video>
 
             <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
               <motion.p
