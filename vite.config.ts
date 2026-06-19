@@ -8,5 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: './', // ⭐ PENTING: Untuk GitHub Pages
+  base: '/Releases-Published/',
 })
