@@ -594,10 +594,9 @@ export default function App() {
       <div className="fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
         <video autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover opacity-55 md:opacity-65">
            <source
-    src="/Releases-Published/image/sasuke/sasuke-Landscape/background-5.mp4"
-    type="video/mp4"
-  />
-</video>
+        src="/Releases-Published/image/sasuke/sasuke-Landscape/background-5.mp4"
+       type="video/mp4"
+       />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/45 via-slate-950/35 to-slate-950/55" />
         <IsometricGrid />
